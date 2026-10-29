@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SPM Speaking Drill</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<style>
+/* Layout: one-screen projector app — top bar / stage (task card + timer rail) / control bar. Home = set library grid. */
+:root{
+  --bg:#EDF1F7; --surface:#FFFFFF; --surface-2:#F5F7FB; --ink:#0D1A33; --muted:#53617D; --line:#D3DAE7; --line-strong:#1B2A4A;
+  --accent:#1D4ED0; --accent-ink:#FFFFFF; --accent-soft:#E2E9FB;
+  --warm:#B85F00; --warm-soft:#FFF0DA; --ok:#0A7650; --ok-soft:#DCF2E8;
+  --strip:#0D1A33; --strip-fg:#F3F6FC;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Atkinson Hyperlegible","Segoe UI",Arial,sans-serif;
+  --shadow:0 1px 2px rgba(13,26,51,.06),0 10px 28px rgba(13,26,51,.07);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0A1021; --surface:#111A2F; --surface-2:#0E1629; --ink:#E8EEF9; --muted:#9BA8C2; --line:#25324F; --line-strong:#C9D4EA;
+  --accent:#7398FF; --accent-ink:#081026; --accent-soft:#1A2853;
+  --warm:#FFAD3B; --warm-soft:#3A2810; --ok:#3ACB93; --ok-soft:#0E2E23;
+  --strip:#1C2A4A; --strip-fg:#E8EEF9; --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0A1021; --surface:#111A2F; --surface-2:#0E1629; --ink:#E8EEF9; --muted:#9BA8C2; --line:#25324F; --line-strong:#C9D4EA;
+  --accent:#7398FF; --accent-ink:#081026; --accent-soft:#1A2853;
+  --warm:#FFAD3B; --warm-soft:#3A2810; --ok:#3ACB93; --ok-soft:#0E2E23;
+  --strip:#1C2A4A; --strip-fg:#E8EEF9; --shadow:0 1px 2px rgba(0,0,0,.3); color-scheme:dark }
+
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.view{height:100%;display:flex;flex-direction:column}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@media (min-width:900px){.gut{padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}}
+
+/* ---------- top bar ---------- */
+.bar{display:flex;align-items:center;gap:16px;padding-block:12px;background:var(--surface);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.code{font-family:var(--display);font-weight:800;font-stretch:115%;font-size:14px;letter-spacing:.04em;background:var(--strip);color:var(--strip-fg);padding:6px 9px;border-radius:6px;font-variant-numeric:tabular-nums}
+.bname{font-family:var(--display);font-weight:800;font-stretch:110%;font-size:20px;letter-spacing:-.01em;line-height:1.1}
+.bsub{color:var(--muted);font-size:13px}
+.spacer{flex:1}
+.ibtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px;font-size:14px;font-weight:700}
+.ibtn:hover{border-color:var(--muted)}
+.ibtn svg{width:18px;height:18px}
+
+/* ---------- home ---------- */
+.home-main{flex:1;overflow:auto;padding-block:28px 40px}
+.wrap{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+.hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:28px;align-items:end}
+.hero h1{font-family:var(--display);font-weight:800;font-stretch:112%;font-size:clamp(32px,4.4vw,56px);line-height:1.02;letter-spacing:-.02em;margin:0 0 12px;text-wrap:balance}
+.hero p{margin:0;color:var(--muted);font-size:18px;max-width:58ch}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.prog-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.prog-num{font-family:var(--display);font-weight:800;font-size:32px;font-variant-numeric:tabular-nums;font-stretch:105%}
+.prog-num small{font-size:16px;color:var(--muted);font-weight:600}
+.meter{height:8px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent);width:0;transition:width .4s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:12px;padding:12px 20px;font-weight:700;font-size:17px;border:1px solid var(--line);background:var(--surface)}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.big{font-size:clamp(18px,1.8vw,24px);padding:16px 28px;border-radius:14px}
+.btn svg{width:20px;height:20px}
+
+.settings{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center;padding:14px 18px;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.setting{display:flex;align-items:center;gap:10px;font-size:15px}
+.setting > span{color:var(--muted);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:7px 14px;font-weight:700;font-variant-numeric:tabular-nums}
+.seg button + button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.switch{width:46px;height:26px;border-radius:99px;border:1px solid var(--line);background:var(--surface-2);position:relative;padding:0}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--muted);transition:transform .2s,background .2s}
+.switch[aria-checked="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.switch[aria-checked="true"]::after{transform:translateX(20px);background:var(--accent)}
+.linkbtn{border:0;background:none;padding:6px 4px;font-weight:700;color:var(--accent);font-size:15px}
+.linkbtn.danger{color:var(--warm)}
+.confirm{display:inline-flex;gap:8px;align-items:center;font-size:14px;color:var(--muted)}
+
+.lib-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.lib-head h2{font-family:var(--display);font-weight:800;font-stretch:110%;font-size:22px;margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.tile{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;position:relative;min-height:128px;transition:border-color .15s,transform .15s}
+.tile:hover{border-color:var(--accent);transform:translateY(-1px)}
+.tno{font-family:var(--display);font-weight:800;font-stretch:120%;font-size:13px;letter-spacing:.08em;color:var(--accent);font-variant-numeric:tabular-nums}
+.tth{font-family:var(--display);font-weight:700;font-size:18px;line-height:1.2;text-wrap:balance}
+.tsub{font-size:13px;color:var(--muted);line-height:1.35}
+.tused{position:absolute;top:12px;right:12px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ok);background:var(--ok-soft);padding:3px 8px;border-radius:99px;display:none}
+.tile.used{background:var(--surface-2)}
+.tile.used .tth{color:var(--muted)}
+.tile.used .tused{display:inline-block}
+.grid.hide-used .tile.used{display:none}
+
+/* ---------- session ---------- */
+.steps{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:13px;font-weight:700;letter-spacing:.04em;padding:6px 12px;border-radius:99px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.chip.done{color:var(--ok);border-color:var(--ok)}
+.setlabel{font-family:var(--display);font-weight:800;font-stretch:115%;font-size:18px;font-variant-numeric:tabular-nums}
+.stage{flex:1;min-height:0;overflow:auto;padding-block:20px}
+.ctrl{display:flex;align-items:center;gap:12px;padding-block:12px;background:var(--surface);border-top:1px solid var(--line);padding-bottom:max(12px,env(safe-area-inset-bottom,0px))}
+.hint{color:var(--muted);font-size:13px}
+@media (max-width:700px){.hint{display:none}}
+
+/* ready screen */
+.ready{min-height:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(24px,5vw,80px);align-items:center;max-width:1180px;margin:0 auto;padding-block:12px}
+.eyebrow{font-family:var(--display);font-weight:700;font-stretch:118%;font-size:clamp(13px,1.2vw,16px);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+.bigline{font-family:var(--display);font-weight:800;font-stretch:108%;font-size:clamp(36px,5.6vw,84px);line-height:1;letter-spacing:-.025em;margin:0 0 20px;text-wrap:balance}
+.lede{font-size:clamp(18px,1.9vw,26px);color:var(--muted);margin:0 0 28px;max-width:46ch}
+.numeral{font-family:var(--display);font-weight:800;font-stretch:125%;font-size:clamp(120px,20vw,300px);line-height:.82;color:transparent;-webkit-text-stroke:3px var(--accent);font-variant-numeric:tabular-nums;text-align:right}
+.numeral small{display:block;font-size:clamp(16px,1.6vw,22px);-webkit-text-stroke:0;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;font-stretch:120%;margin-top:14px}
+.ready .actions{display:flex;flex-wrap:wrap;gap:12px}
+@media (max-width:700px){.ready{grid-template-columns:1fr}.numeral{text-align:left}}
+
+/* split stage */
+.split{display:grid;grid-template-columns:minmax(0,1fr) clamp(220px,22vw,300px);gap:clamp(16px,2vw,28px);max-width:1500px;margin:0 auto;min-height:100%;align-items:start}
+@media (max-width:900px){.split{grid-template-columns:1fr}}
+.col{display:flex;flex-direction:column;gap:16px;min-width:0}
+.reveal{animation:rise .45s cubic-bezier(.2,.7,.2,1)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* booklet card */
+.booklet{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.bk-head{display:flex;justify-content:space-between;gap:12px;background:var(--strip);color:var(--strip-fg);padding:10px clamp(16px,2vw,28px);font-family:var(--display);font-weight:700;font-stretch:120%;font-size:clamp(12px,1.05vw,15px);letter-spacing:.12em;text-transform:uppercase;font-variant-numeric:tabular-nums;flex-wrap:wrap}
+.bk-body{padding:clamp(18px,2.6vw,40px) clamp(18px,3vw,48px)}
+.topic{font-family:var(--display);font-weight:800;font-stretch:106%;font-size:clamp(30px,4vw,60px);line-height:1.04;letter-spacing:-.02em;margin:0 0 14px;text-wrap:balance}
+.prompt{font-size:clamp(21px,2.4vw,36px);font-weight:700;margin:0 0 clamp(14px,2vw,26px);line-height:1.25}
+.say{font-size:clamp(17px,1.7vw,24px);color:var(--muted);margin:0 0 8px;font-weight:700}
+.pts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:clamp(6px,1vw,14px)}
+.pts li{font-size:clamp(20px,2.25vw,34px);line-height:1.25;padding-left:1.15em;position:relative}
+.pts li::before{content:"";position:absolute;left:.15em;top:.5em;width:.42em;height:.42em;border-radius:50%;background:var(--accent)}
+
+.follow{background:var(--surface);border:1px dashed var(--line);border-radius:14px;padding:16px clamp(16px,2vw,28px);display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.follow .fq{font-size:clamp(22px,2.4vw,34px);font-weight:700;line-height:1.25;margin:0}
+.minilabel{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+
+/* instruction strip (part 3) */
+.instr{display:flex;gap:14px;align-items:flex-start;background:var(--accent-soft);border-radius:12px;padding:14px 18px;font-size:clamp(19px,2vw,30px);font-weight:700;line-height:1.25}
+.instr b{color:var(--accent)}
+.p3intro{margin:0 0 6px;font-size:clamp(19px,2vw,30px);font-weight:700;line-height:1.25}
+.p3lead{margin:0 0 14px;font-size:clamp(16px,1.6vw,22px);color:var(--muted)}
+
+/* mind map */
+.mmwrap{width:100%;max-width:min(100%,calc((100vh - 330px) * 1.7778));margin:0 auto}
+.mm{position:relative;width:100%;aspect-ratio:16/9;container-type:inline-size}
+.mm svg{position:absolute;inset:0;width:100%;height:100%}
+.mm line{stroke:var(--accent);stroke-width:.35}
+.node,.hub{position:absolute;transform:translate(-50%,-50%);border-radius:50%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;text-align:center;background:var(--surface);border:max(2px,.32cqw) solid var(--line-strong);line-height:1.18;padding:2cqw}
+.node{width:20%;font-size:2.3cqw;font-weight:400}
+.hub{width:24%;left:50%;top:50%;font-size:2.35cqw;font-weight:700;background:var(--accent-soft);border-color:var(--accent);font-family:var(--display);font-stretch:104%}
+button.node{cursor:pointer;transition:background .15s,color .15s,transform .15s}
+button.node:hover{background:var(--surface-2)}
+button.node.picked{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700;transform:translate(-50%,-50%) scale(1.06)}
+@media (max-width:640px){
+  .mm{aspect-ratio:auto;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .mm svg{display:none}
+  .node,.hub{position:static;transform:none;width:auto;aspect-ratio:auto;border-radius:12px;font-size:17px;padding:14px;min-height:64px;border-width:2px}
+  .hub{grid-column:1/-1;font-size:19px}
+  button.node.picked{transform:none}
+}
+
+/* opinion */
+.opq{font-family:var(--display);font-weight:800;font-stretch:104%;font-size:clamp(30px,4.2vw,62px);line-height:1.08;letter-spacing:-.02em;margin:0 0 clamp(18px,3vw,36px);text-wrap:balance}
+.ctx{font-size:clamp(17px,1.7vw,24px);color:var(--muted);margin:0 0 14px}
+.prompts{display:flex;flex-wrap:wrap;gap:10px}
+.prompts span{font-size:clamp(17px,1.7vw,24px);font-weight:700;border:1px solid var(--line);border-radius:99px;padding:8px 18px;background:var(--surface-2)}
+
+/* timer rail */
+.rail{position:sticky;top:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:14px}
+@media (max-width:900px){.rail{position:static;flex-direction:row;flex-wrap:wrap;justify-content:center}}
+.status{align-self:stretch;text-align:center;font-weight:700;font-size:15px;padding:8px 10px;border-radius:10px;background:var(--accent-soft);color:var(--accent)}
+.status.ok{background:var(--ok-soft);color:var(--ok)}
+.status.warm{background:var(--warm-soft);color:var(--warm)}
+@media (max-width:900px){.status{flex-basis:100%}}
+.ring{position:relative;width:min(100%,240px);aspect-ratio:1}
+@media (max-width:900px){.ring{width:170px}}
+.ring svg{width:100%;height:100%;display:block}
+.rbg{fill:none;stroke:var(--surface-2);stroke-width:9}
+.rfg{fill:none;stroke:var(--accent);stroke-width:9;stroke-linecap:round;transition:stroke .2s}
+.rtext{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.tnum{font-family:var(--display);font-weight:800;font-stretch:112%;font-size:clamp(46px,5vw,72px);line-height:1;font-variant-numeric:tabular-nums}
+.tlab{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ring.low .rfg{stroke:var(--warm)} .ring.low .tnum{color:var(--warm)}
+.ring.low.running{animation:pulse 1s ease-in-out infinite}
+.ring.end .rfg{stroke:var(--ok)} .ring.end .tnum{color:var(--ok)}
+@keyframes pulse{50%{transform:scale(1.03)}}
+.tctrl{display:flex;gap:8px;width:100%;justify-content:center}
+.tctrl .btn{padding:10px 16px;font-size:16px;flex:1;max-width:130px}
+
+/* end screen */
+.endbadge{width:clamp(96px,12vw,160px);aspect-ratio:1;border-radius:50%;border:4px solid var(--ok);display:grid;place-items:center;color:var(--ok)}
+.endbadge svg{width:50%;height:50%}
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="view" id="home">
+  <header class="bar gut">
+    <div class="brand"><span class="code">1119/3</span><div><div class="bname">SPM Speaking Drill</div><div class="bsub">Part 2 &amp; Part 3 classroom practice</div></div></div>
+    <span class="spacer"></span>
+    <button class="ibtn themeBtn" type="button" aria-label="Switch colour theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg><span class="themeLbl">Theme</span></button>
+    <button class="ibtn fsBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span class="fsLbl">Full screen</span></button>
+  </header>
+  <main class="home-main gut">
+    <div class="wrap">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Speaking practice · Form 4 &amp; 5</p>
+          <h1>Fifty sets. No topic repeated.</h1>
+          <p>Each set has two Part 2 long-turn tasks and one Part 3 group discussion. Every task starts with a preparation timer, and the question appears only when the timer starts.</p>
+        </div>
+        <div class="panel">
+          <div class="prog-row"><span class="minilabel">Sets used</span><span class="prog-num" id="progNum">0 <small>/ 50</small></span></div>
+          <div class="meter"><i id="progBar"></i></div>
+          <button class="btn primary big" id="randomBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>Start a new set</button>
+          <p class="hint" id="randomNote" style="margin:0">Picks a random set you have not used yet.</p>
+        </div>
+      </section>
+
+      <section class="settings" aria-label="Settings">
+        <div class="setting"><span>Preparation time</span>
+          <div class="seg" id="prepSeg" role="group" aria-label="Preparation time">
+            <button type="button" data-v="15">15s</button><button type="button" data-v="20">20s</button><button type="button" data-v="30">30s</button>
+          </div>
+        </div>
+        <div class="setting"><span>Timer sound</span><button class="switch" id="soundSw" type="button" role="switch" aria-checked="true" aria-label="Timer sound"></button></div>
+        <div class="setting"><span>Hide used sets</span><button class="switch" id="hideSw" type="button" role="switch" aria-checked="false" aria-label="Hide used sets"></button></div>
+        <span class="spacer"></span>
+        <div class="setting" id="resetBox"><button class="linkbtn danger" id="resetBtn" type="button">Reset used sets</button></div>
+      </section>
+
+      <section>
+        <div class="lib-head"><h2>All sets</h2><span class="hint">Tap a set to begin. Each tile shows the Part 3 theme, then the two Part 2 topics.</span></div>
+        <div class="grid" id="grid" style="margin-top:14px"></div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="view" id="session" hidden>
+  <header class="bar gut">
+    <button class="ibtn" id="homeBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>All sets</button>
+    <span class="setlabel" id="setLabel">Set 01</span>
+    <div class="steps" id="steps"><span class="chip" data-k="2A">Part 2 · A</span><span class="chip" data-k="2B">Part 2 · B</span><span class="chip" data-k="3">Part 3</span></div>
+    <span class="spacer"></span>
+    <button class="ibtn themeBtn" type="button" aria-label="Switch colour theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg><span class="themeLbl">Theme</span></button>
+    <button class="ibtn fsBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span class="fsLbl">Full screen</span></button>
+  </header>
+  <main class="stage gut" id="stage"></main>
+  <footer class="ctrl gut">
+    <button class="btn" id="backBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>Back</button>
+    <span class="spacer"></span>
+    <span class="hint">Keyboard or clicker: → next · ← back</span>
+    <button class="btn primary" id="nextBtn" type="button"><span id="nextLbl">Next</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 18l6-6-6-6"/></svg></button>
+  </footer>
+</div>
+
+<script>
+/* a/b: [title, prompt, [4 points], question for partner]
+   c:   [theme, intro, lead, centre question, [6 options], discussion topic, decision, opinion question] */
+const SETS = [
+{a:["A memorable school trip","Talk about a school trip you enjoyed.",["where you went","who went with you","what you did there","whether school trips help pupils learn (why/why not)"],"Do you prefer travelling with your family or your friends? Why?"],
+ b:["A helpful neighbour","Talk about a neighbour who has helped you or your family.",["who the person is","how you know him or her","how he or she helped you","why it is important to have good neighbours"],"Do you know your neighbours well? Why/why not?"],
+ c:["Protecting the environment","Our environment is facing many problems today.","Here are some ways pupils can help protect the environment","How can pupils help protect the environment?",["recycle waste","plant trees","save electricity","use less plastic","join clean-up campaigns","walk or cycle more"],"how pupils can help protect the environment","which is the most effective way pupils can help protect the environment","Should schools punish pupils who litter? Why/why not?"]},
+{a:["A skill you want to learn","Talk about a skill you would like to learn.",["what the skill is","who could teach you","why you want to learn it","whether young people should learn practical skills (why/why not)"],"Is it better to learn from videos or from a teacher? Why?"],
+ b:["A special meal","Talk about a special meal you have eaten.",["what the meal was","where you had it","who you ate it with","whether families should eat together often (why/why not)"],"Do you like cooking? Why/why not?"],
+ c:["Stress among students","Many students feel stressed nowadays.","Here are some causes of stress among students","What causes stress among students?",["too much homework","examinations","pressure from parents","social media","lack of sleep","problems with friends"],"the causes of stress among students","which is the main cause of stress among students","How can schools help students manage stress?"]},
+{a:["A person you admire","Talk about a person you admire.",["who the person is","how you know about him or her","what he or she has achieved","whether teenagers need role models (why/why not)"],"Who do you usually ask for advice? Why?"],
+ b:["A place to relax","Talk about a place where you like to relax.",["where it is","how often you go there","what you do there","whether teenagers have enough free time (why/why not)"],"What do you usually do at the weekend? Why?"],
+ c:["Reading habits","Fewer teenagers read books for pleasure today.","Here are some ways to encourage teenagers to read more","How can we encourage teenagers to read more?",["reading competitions","a comfortable library","e-books","book clubs","rewards for reading","parents reading at home"],"ways to encourage teenagers to read more","which is the best way to encourage teenagers to read","Are printed books still important in the digital age? Why/why not?"]},
+{a:["A festival you celebrate","Talk about a festival you celebrate.",["what the festival is","when it is celebrated","how you celebrate it","whether festivals bring people together (why/why not)"],"What is your favourite festive food? Why?"],
+ b:["A useful mobile app","Talk about a mobile app you find useful.",["what the app is","how often you use it","what you use it for","whether teenagers depend too much on their phones (why/why not)"],"How many hours a day do you use your phone? Why?"],
+ c:["Road safety","Road accidents involving young people are common.","Here are some ways to reduce road accidents","How can we reduce road accidents?",["wear helmets and seat belts","stricter traffic laws","road safety talks","better street lights","more speed cameras","no phones while driving"],"ways to reduce road accidents","which is the most effective way to reduce road accidents","Should teenagers be allowed to ride motorcycles to school? Why/why not?"]},
+{a:["An animal you like","Talk about an animal you like.",["what the animal is","where you usually see it","why you like it","whether keeping pets teaches responsibility (why/why not)"],"Would you like to keep a pet? Why/why not?"],
+ b:["A birthday celebration","Talk about a birthday celebration you remember.",["whose birthday it was","where it was held","what happened","whether birthday parties are necessary (why/why not)"],"How do you usually celebrate your birthday? Why?"],
+ c:["Unhealthy eating","Many teenagers eat unhealthy food.","Here are some reasons why teenagers choose unhealthy food","Why do teenagers choose unhealthy food?",["it tastes good","it is cheap","it is fast","advertisements","influence of friends","busy parents"],"the reasons why teenagers choose unhealthy food","which is the main reason teenagers choose unhealthy food","Should school canteens sell only healthy food? Why/why not?"]},
+{a:["A sport you enjoy watching","Talk about a sport you enjoy watching.",["what the sport is","where you watch it","who your favourite player or team is","whether watching sports is as good as playing them (why/why not)"],"Do you prefer watching matches live or on TV? Why?"],
+ b:["A rainy day","Talk about a rainy day you remember.",["when it happened","where you were","what you did","whether the weather affects people's mood (why/why not)"],"Do you like rainy days or sunny days? Why?"],
+ c:["Volunteering","Volunteering is a good way to help the community.","Here are some volunteer activities teenagers can do","What volunteer activities can teenagers do?",["visit old folks' homes","tutor younger pupils","clean public areas","help at animal shelters","collect donations","help flood victims"],"volunteer activities teenagers can do","which volunteer activity is the most meaningful for teenagers","Should volunteering be compulsory for secondary school pupils? Why/why not?"]},
+{a:["Your dream job","Talk about a job you would like to do in the future.",["what the job is","what the job involves","why you want to do it","whether money is the most important thing when choosing a job (why/why not)"],"What job do your parents hope you will do? Why?"],
+ b:["A teacher who inspired you","Talk about a teacher who inspired you.",["who the teacher is","what subject he or she teaches","how he or she inspired you","whether a good teacher can change a pupil's life (why/why not)"],"What is your favourite subject? Why?"],
+ c:["Choosing a career","Choosing a career is an important decision.","Here are some things people consider when choosing a career","What should we consider when choosing a career?",["salary","interest","job opportunities","parents' advice","working hours","location"],"what people consider when choosing a career","which is the most important factor when choosing a career","Is it better to go to university or learn a skill after SPM? Why?"]},
+{a:["A game you like to play","Talk about a game you like to play.",["what the game is","who you play it with","how to play it","whether traditional games are still popular among teenagers (why/why not)"],"Do you prefer outdoor games or video games? Why?"],
+ b:["A shop or market you visit","Talk about a shop or market you like to visit.",["where it is","what it sells","why you like it","whether shopping online is better than shopping in person (why/why not)"],"Do you like shopping? Why/why not?"],
+ c:["Saving money","It is important for teenagers to manage their money well.","Here are some ways teenagers can save money","How can teenagers save money?",["bring food from home","use a piggy bank","buy only what you need","open a bank account","avoid online shopping","compare prices"],"ways teenagers can save money","which is the best way for teenagers to save money","Should parents give teenagers pocket money? Why/why not?"]},
+{a:["A family outing","Talk about an outing with your family.",["where you went","what you did","how you felt","whether families should spend weekends together (why/why not)"],"Who are you closest to in your family? Why?"],
+ b:["A place in your hometown","Talk about a place in your hometown that visitors should see.",["what the place is","where it is","what visitors can do there","whether tourism is good for small towns (why/why not)"],"Would you like to live in a big city? Why/why not?"],
+ c:["Bullying in schools","Bullying is a serious problem in many schools.","Here are some ways to stop bullying in schools","How can we stop bullying in schools?",["report to teachers","anti-bullying campaigns","more CCTV cameras","counselling sessions","stricter school rules","peer support groups"],"ways to stop bullying in schools","which is the most effective way to stop bullying","Why do some victims of bullying stay silent?"]},
+{a:["A story you enjoyed","Talk about a book or story you enjoyed.",["what it is about","who wrote it","why you enjoyed it","whether reading is better than watching films (why/why not)"],"Do you prefer reading on paper or on a screen? Why?"],
+ b:["Your best friend","Talk about your best friend.",["who he or she is","how you met","what you do together","whether it is better to have many friends or a few close friends (why)"],"What makes a good friend? Why?"],
+ c:["Learning English","English is an important language in the world today.","Here are some ways pupils can improve their English","How can pupils improve their English?",["watch English films","read English newspapers","speak English with friends","join the English club","play games in English","listen to English songs"],"ways pupils can improve their English","which is the best way to improve your English","Why is English important for your future?"]},
+{a:["A competition you joined","Talk about a competition you took part in.",["what the competition was","when it was held","how you prepared for it","whether competitions are good for pupils (why/why not)"],"Do you enjoy competing with others? Why/why not?"],
+ b:["A special photo","Talk about a photo that is special to you.",["what is in the photo","when it was taken","why it is special","whether people take too many photos nowadays (why/why not)"],"Do you like taking selfies? Why/why not?"],
+ c:["Moving to the city","Many young people want to move to the city.","Here are some reasons why young people move to cities","Why do young people move to cities?",["better jobs","higher salaries","universities and colleges","modern facilities","entertainment","better transport"],"the reasons why young people move to cities","which is the main reason young people move to cities","How can we make rural areas attractive to young people?"]},
+{a:["A means of transport","Talk about a means of transport you like to use.",["what it is","where you go with it","why you like it","whether people should use public transport more (why/why not)"],"How do you usually travel during the school holidays? Why?"],
+ b:["An embarrassing moment","Talk about an embarrassing moment you experienced.",["what happened","where it happened","how you felt","whether it is good to laugh at our own mistakes (why/why not)"],"How do you feel when you make a mistake in class? Why?"],
+ c:["Food waste","A lot of food is thrown away every day.","Here are some ways to reduce food waste","How can we reduce food waste?",["cook smaller portions","share leftover food","donate to food banks","plan before shopping","make compost","take only what you can finish"],"ways to reduce food waste","which is the best way to reduce food waste","Why do people waste food at buffets and festive events?"]},
+{a:["A school club or society","Talk about a club or society you belong to.",["what the club is","what activities it has","why you joined it","whether co-curricular activities are important (why/why not)"],"Which club would you like to join? Why?"],
+ b:["A day without electricity","Talk about a time when there was no electricity.",["when it happened","what you did","how you felt","whether we depend too much on electricity (why/why not)"],"Which electrical item can you not live without? Why?"],
+ c:["Online learning","Online learning has become common in recent years.","Here are some advantages of online learning","What are the advantages of online learning?",["learn anywhere","save travelling time","replay lessons","many free resources","learn at your own pace","improve digital skills"],"the advantages of online learning","which is the biggest advantage of online learning","Can online learning replace classroom learning? Why/why not?"]},
+{a:["A popular local food","Talk about a food that is popular in your area.",["what it is","where you can get it","how it is eaten","whether local food should be promoted to tourists (why/why not)"],"What is your favourite local dish? Why?"],
+ b:["A time you helped someone","Talk about a time you helped someone.",["who you helped","what the problem was","how you helped","whether teenagers today are helpful (why/why not)"],"Do you find it easy to ask for help? Why/why not?"],
+ c:["Being a good citizen","Every citizen has a role in building a good country.","Here are some qualities of a good citizen","What makes a good citizen?",["obeys the law","respects others","keeps the area clean","votes in elections","helps the community","loves the country"],"the qualities of a good citizen","which is the most important quality of a good citizen","How can young people show love for their country?"]},
+{a:["A musical instrument","Talk about a musical instrument you play or would like to play.",["what the instrument is","where you learnt or want to learn it","why you like it","whether music should be a compulsory subject (why/why not)"],"Do you like to sing? Why/why not?"],
+ b:["An interesting building","Talk about a building you find interesting.",["what the building is","where it is","what it looks like","whether old buildings should be preserved (why/why not)"],"Would you prefer to live in a house or a flat? Why?"],
+ c:["Fake news","False information spreads quickly online.","Here are some ways to stop the spread of fake news","How can we stop the spread of fake news?",["check the source","read the full article","report false posts","think before sharing","learn digital literacy","use fact-checking websites"],"ways to stop the spread of fake news","which is the most effective way to stop fake news","Why do people believe fake news?"]},
+{a:["A holiday you enjoyed","Talk about a holiday you enjoyed.",["where you went","who you went with","what you did","whether holidays should be spent at home or away (why)"],"Do you prefer the beach or the mountains? Why?"],
+ b:["Something you made","Talk about something you made with your own hands.",["what it was","how you made it","what you did with it","whether handmade items are more valuable than bought ones (why/why not)"],"Are you good at art and craft? Why/why not?"],
+ c:["A clean school","A clean school makes learning more pleasant.","Here are some ways to keep the school clean","How can we keep our school clean?",["class duty rosters","more dustbins","cleanliness competitions","gotong-royong","fines for littering","posters and reminders"],"ways to keep the school clean","which is the best way to keep the school clean","Whose responsibility is it to keep the school clean? Why?"]},
+{a:["Sports day","Talk about a sports day at your school.",["when it was held","what events there were","what you did","whether sports day is important for pupils (why/why not)"],"Do you enjoy sports day? Why/why not?"],
+ b:["An elderly person you know","Talk about an elderly person you know well.",["who the person is","how you know him or her","what you have learnt from him or her","whether teenagers should spend more time with the elderly (why/why not)"],"Do you like listening to stories from older people? Why?"],
+ c:["Saving water","Water is a precious resource.","Here are some ways to save water at home","How can we save water at home?",["fix leaking taps","take shorter showers","collect rainwater","turn off the tap while brushing","wash the car with a bucket","reuse water for plants"],"ways to save water at home","which is the best way to save water","What would happen if there was no clean water for a week?"]},
+{a:["A lesson from a mistake","Talk about a mistake you learnt from.",["what the mistake was","when it happened","what you learnt","whether failure helps people succeed (why/why not)"],"Who do you talk to when things go wrong? Why?"],
+ b:["Your favourite time of the year","Talk about your favourite time of the year.",["when it is","what happens at that time","why you like it","whether school holidays are too long or too short (why)"],"What do you usually do during the school holidays? Why?"],
+ c:["Being a good leader","Schools need good student leaders.","Here are some qualities of a good leader","What makes a good leader?",["honest","confident","responsible","a good listener","hardworking","fair to everyone"],"the qualities of a good leader","which is the most important quality of a leader","Would you like to be a prefect or a class monitor? Why/why not?"]},
+{a:["A learning app or website","Talk about an app or website you use for learning.",["what it is","how often you use it","how it helps you","whether pupils should use phones in class (why/why not)"],"Do you prefer studying alone or in a group? Why?"],
+ b:["A river, lake or beach","Talk about a river, lake or beach you have visited.",["where it is","what it looked like","what you did there","whether people who pollute rivers should be fined (why/why not)"],"Can you swim? Why/why not?"],
+ c:["Teenage hobbies","Teenagers have many different hobbies.","Here are some popular hobbies among teenagers","What are some popular hobbies among teenagers?",["gaming","drawing","cooking","gardening","playing football","making videos"],"popular hobbies among teenagers","which hobby is the most beneficial for teenagers","Should parents choose their children's hobbies? Why/why not?"]},
+{a:["A promise you made","Talk about a promise you made.",["what the promise was","who you made it to","whether you kept it","whether keeping promises is important in friendship (why/why not)"],"Do you trust people easily? Why/why not?"],
+ b:["A gadget you want","Talk about a gadget you would like to buy.",["what it is","how much it costs","why you want it","whether teenagers should own expensive gadgets (why/why not)"],"How do you save money for things you want? Why?"],
+ c:["Floods","Floods often happen in Malaysia during the monsoon season.","Here are some ways to reduce the effects of floods","How can we reduce the effects of floods?",["clean drains regularly","stop building near rivers","plant more trees","early warning systems","build flood shelters","no rubbish in rivers"],"ways to reduce the effects of floods","which is the most important way to reduce the effects of floods","How can teenagers help flood victims?"]},
+{a:["A wedding or kenduri","Talk about a wedding or kenduri you attended.",["whose event it was","where it was held","what happened","whether big celebrations are necessary (why/why not)"],"What do you like to eat at a kenduri? Why?"],
+ b:["A science experiment","Talk about a science experiment you did.",["what the experiment was","who you did it with","what happened","whether practical work makes science more interesting (why/why not)"],"Do you like Science? Why/why not?"],
+ c:["Smartphones in school","Many pupils own smartphones today.","Here are some ways smartphones can be used in school","How can smartphones be used in school?",["search for information","take photos of notes","do online quizzes","use dictionary apps","contact teachers","record presentations"],"how smartphones can be used in school","which is the most useful way to use smartphones in school","Should pupils be allowed to bring smartphones to school? Why/why not?"]},
+{a:["A good habit","Talk about a good habit you have.",["what the habit is","when you started it","how it helps you","whether good habits should be taught at home or at school (why)"],"What bad habit would you like to stop? Why?"],
+ b:["A visit to a clinic or hospital","Talk about a visit to a clinic or hospital.",["why you went","who you went with","what happened","whether doctors and nurses deserve more appreciation (why/why not)"],"Would you like to work in a hospital? Why/why not?"],
+ c:["Making new friends","Friendship is important in our lives.","Here are some ways teenagers can make new friends","How can teenagers make new friends?",["join clubs","play sports","volunteer","talk to classmates","attend camps","join online communities"],"ways teenagers can make new friends","which is the best way to make new friends","Are online friends real friends? Why/why not?"]},
+{a:["A plant or garden","Talk about a plant or garden you like.",["what it is","where it is","who takes care of it","whether every school should have a garden (why/why not)"],"Do you like gardening? Why/why not?"],
+ b:["Good advice","Talk about a piece of good advice someone gave you.",["what the advice was","who gave it to you","how it helped you","whether teenagers should listen to their parents' advice (why/why not)"],"Do you often give advice to your friends? Why?"],
+ c:["Traffic jams","Traffic jams are common in big cities.","Here are some ways to reduce traffic jams","How can we reduce traffic jams?",["use public transport","carpooling","build more roads","work from home","cycle to work","flexible working hours"],"ways to reduce traffic jams","which is the best way to reduce traffic jams","Is public transport in Malaysia good enough? Why/why not?"]},
+{a:["A childhood cartoon","Talk about a cartoon you enjoyed as a child.",["what it was","when you watched it","what you liked about it","whether cartoons can teach children good values (why/why not)"],"What did you like doing when you were younger? Why?"],
+ b:["Your dream house","Talk about the house you would like to live in.",["where it is","what it looks like","who would live with you","whether it is better to live in a village or a city (why)"],"Which room in your house do you like most? Why?"],
+ c:["Endangered animals","Many animals in Malaysia are in danger of extinction.","Here are some ways to protect endangered animals","How can we protect endangered animals?",["stop illegal hunting","protect forests","build wildlife sanctuaries","educate the public","heavier fines for poachers","stop buying animal products"],"ways to protect endangered animals","which is the most effective way to protect endangered animals","Should wild animals be kept in zoos? Why/why not?"]},
+{a:["A proud moment","Talk about a time you felt proud of yourself.",["what you did","when it happened","who was there","whether praise motivates pupils to do better (why/why not)"],"How do your parents react when you do well? Why?"],
+ b:["A crowded place","Talk about a crowded place you have been to.",["where it was","why it was crowded","how you felt","whether crowded places can be dangerous (why/why not)"],"Do you like quiet places or busy places? Why?"],
+ c:["Appreciating teachers","Teachers play an important role in our lives.","Here are some ways pupils can show appreciation to teachers","How can pupils show appreciation to teachers?",["celebrate Teachers' Day","write thank-you cards","behave well in class","complete homework","greet teachers politely","study hard"],"ways pupils can show appreciation to teachers","which is the best way to show appreciation to teachers","Is a teacher's job harder today than in the past? Why/why not?"]},
+{a:["Clothes you like to wear","Talk about a piece of clothing you like to wear.",["what it is","when you wear it","why you like it","whether school uniforms are necessary (why/why not)"],"Do you follow fashion trends? Why/why not?"],
+ b:["A night to remember","Talk about a night you remember well.",["when it was","where you were","what happened","whether teenagers should be allowed to go out at night (why/why not)"],"Do you like staying up late? Why/why not?"],
+ c:["Plastic waste","Plastic waste is polluting our land and seas.","Here are some ways to reduce plastic waste","How can we reduce plastic waste?",["bring reusable bags","use metal straws","refill water bottles","recycle plastic","no-plastic-bag days","buy less packaging"],"ways to reduce plastic waste","which is the best way to reduce plastic waste","Should shops stop giving out plastic bags? Why/why not?"]},
+{a:["A goal for this year","Talk about a goal you want to achieve this year.",["what the goal is","why it is important to you","how you plan to achieve it","whether teenagers should plan their future early (why/why not)"],"What do you want to do after SPM? Why?"],
+ b:["A museum or zoo visit","Talk about a visit to a museum or zoo.",["where it was","who you went with","what you saw","whether museums are still interesting for teenagers (why/why not)"],"Do you like learning about history? Why/why not?"],
+ c:["Online safety","The internet can be a dangerous place.","Here are some ways teenagers can stay safe online","How can teenagers stay safe online?",["use strong passwords","keep personal details private","do not meet online strangers","report cyberbullying","use privacy settings","avoid unknown links"],"ways teenagers can stay safe online","which is the most important way to stay safe online","Should parents check their children's phones? Why/why not?"]},
+{a:["A chore at home","Talk about a household chore you do.",["what the chore is","how often you do it","whether you enjoy it","whether boys and girls should do the same chores (why/why not)"],"Which chore do you dislike the most? Why?"],
+ b:["A time you got lost","Talk about a time you got lost.",["where it happened","how you got lost","how you found your way","whether we depend too much on GPS (why/why not)"],"Are you good at remembering directions? Why/why not?"],
+ c:["Good study habits","Good study habits lead to good results.","Here are some good study habits","What are some good study habits?",["make a timetable","revise every day","study in a quiet place","do past-year papers","form study groups","take short breaks"],"good study habits","which is the most useful study habit","Is tuition necessary for SPM students? Why/why not?"]},
+{a:["A school event you organised","Talk about a school event you helped to organise.",["what the event was","what your role was","what problems you faced","whether pupils should be given more responsibility (why/why not)"],"Do you like working in a team? Why/why not?"],
+ b:["A local hero","Talk about someone in your community who helps others.",["who the person is","what he or she does","how the community benefits","whether ordinary people can be heroes (why/why not)"],"Who is a hero in your life? Why?"],
+ c:["Air pollution","Air pollution affects our health.","Here are some causes of air pollution","What causes air pollution?",["smoke from vehicles","open burning","factories","forest fires","haze from other countries","construction dust"],"the causes of air pollution","which is the main cause of air pollution","How does haze affect pupils and schools?"]},
+{a:["A very happy day","Talk about a day when you were very happy.",["when it was","what happened","who was with you","whether money can buy happiness (why/why not)"],"What makes you smile? Why?"],
+ b:["A job you would never do","Talk about a job you would not like to do.",["what the job is","what the job involves","why you would not do it","whether all jobs deserve respect (why/why not)"],"Which job do you think is the most difficult? Why?"],
+ c:["Benefits of sports","Sports are an important part of school life.","Here are some benefits of playing sports","What are the benefits of playing sports?",["keeps you fit","builds teamwork","reduces stress","makes new friends","teaches discipline","career opportunities"],"the benefits of playing sports","which is the greatest benefit of playing sports","Should schools have more Physical Education lessons? Why/why not?"]},
+{a:["A park in your area","Talk about a park in your area.",["where it is","what facilities it has","what people do there","whether more parks should be built in towns (why/why not)"],"Do you like jogging? Why/why not?"],
+ b:["A surprise","Talk about a surprise you received.",["what the surprise was","who gave it to you","how you reacted","whether everyone likes surprises (why/why not)"],"Do you like planning surprises for others? Why/why not?"],
+ c:["Children and gadgets","Many young children use gadgets every day.","Here are some effects of gadgets on young children","How do gadgets affect young children?",["poor eyesight","less outdoor play","faster learning","lack of sleep","poor social skills","short attention span"],"the effects of gadgets on young children","which is the most serious effect of gadgets on young children","At what age should children get their own phone? Why?"]},
+{a:["A language you want to learn","Talk about a language you would like to learn.",["what the language is","why you want to learn it","how you would learn it","whether learning many languages is useful (why/why not)"],"How many languages can you speak? Which is the easiest?"],
+ b:["A fun class activity","Talk about a class activity you enjoyed.",["what the activity was","which subject it was for","what you did","whether lessons should have more games and activities (why/why not)"],"What makes a lesson interesting? Why?"],
+ c:["Attracting tourists","Tourism brings income to Malaysia.","Here are some ways to attract more tourists to Malaysia","How can we attract more tourists to Malaysia?",["promote local food","organise festivals","improve transport","clean beaches and parks","promote on social media","friendly locals"],"ways to attract more tourists to Malaysia","which is the best way to attract tourists","Does tourism bring more benefits or problems to local people? Why?"]},
+{a:["Trying something new","Talk about a time you tried something new.",["what it was","why you tried it","how you felt","whether teenagers should step out of their comfort zone (why/why not)"],"Would you like to try an extreme sport? Why/why not?"],
+ b:["Your favourite place in school","Talk about your favourite place in school.",["what the place is","what you do there","why you like it","whether school facilities affect pupils' learning (why/why not)"],"What would you change about your school? Why?"],
+ c:["Leaving school early","Some pupils leave school before finishing their studies.","Here are some reasons why pupils drop out of school","Why do some pupils drop out of school?",["family problems","lack of money","poor results","school is far away","want to work early","lack of interest"],"the reasons why some pupils drop out of school","which is the main reason pupils drop out of school","How can the community help pupils stay in school?"]},
+{a:["A dish you can cook","Talk about a dish you can cook.",["what it is","who taught you","how you cook it","whether teenagers should learn to cook (why/why not)"],"Who is the best cook in your family? Why?"],
+ b:["A storm or natural event","Talk about a storm or natural event you experienced.",["what happened","where you were","how you felt","whether people are prepared for natural disasters (why/why not)"],"Are you afraid of thunder and lightning? Why/why not?"],
+ c:["Helping parents","Teenagers can play a big role at home.","Here are some ways teenagers can help their parents","How can teenagers help their parents?",["do household chores","look after siblings","help in the family business","spend money wisely","get good results","run errands"],"ways teenagers can help their parents","which is the most helpful thing teenagers can do for their parents","Should teenagers be paid for doing chores? Why/why not?"]},
+{a:["An interesting news story","Talk about a news story you found interesting.",["what the news was about","where you heard or read it","why it interested you","whether teenagers should follow the news (why/why not)"],"Do you read the news? Why/why not?"],
+ b:["A talent you have","Talk about a talent you have.",["what it is","when you discovered it","how you developed it","whether schools should help pupils discover their talents (why/why not)"],"What talent would you like to have? Why?"],
+ c:["School holidays","School holidays give pupils a chance to rest.","Here are some ways pupils can spend the school holidays","How can pupils spend the school holidays?",["travel with family","attend camps","work part-time","learn a new skill","help the community","rest at home"],"ways pupils can spend the school holidays","which is the most useful way to spend the school holidays","Should pupils be given homework during the holidays? Why/why not?"]},
+{a:["A time you were late","Talk about a time you were late for something.",["what you were late for","why you were late","what happened","whether punctuality is important (why/why not)"],"Are you usually early or late? Why?"],
+ b:["A hobby you gave up","Talk about a hobby you used to have.",["what the hobby was","when you started it","why you stopped","whether hobbies can become careers (why/why not)"],"What new hobby would you like to try? Why?"],
+ c:["Online shopping","Online shopping is very popular today.","Here are some reasons why people shop online","Why do people shop online?",["convenience","cheaper prices","more choices","home delivery","discount vouchers","shop at any time"],"the reasons why people shop online","which is the main reason people shop online","What are the dangers of online shopping?"]},
+{a:["A community event","Talk about an event in your village or town.",["what the event was","where it was held","what people did","whether community events bring people closer (why/why not)"],"Do you know most people in your neighbourhood? Why/why not?"],
+ b:["A phone call you remember","Talk about a phone call you remember.",["who called","what it was about","how you felt","whether people talk less face to face nowadays (why/why not)"],"Do you prefer texting or calling? Why?"],
+ c:["Learning outside the classroom","Learning does not only happen in the classroom.","Here are some ways pupils can learn outside the classroom","How can pupils learn outside the classroom?",["field trips","nature walks","visiting museums","community projects","educational camps","interviewing people"],"ways pupils can learn outside the classroom","which is the best way to learn outside the classroom","Should more lessons be held outside the classroom? Why/why not?"]},
+{a:["A childhood toy","Talk about a toy you loved as a child.",["what the toy was","who gave it to you","why you loved it","whether children today have too many toys (why/why not)"],"Do you still keep your old toys? Why/why not?"],
+ b:["A difficult decision","Talk about a difficult decision you made.",["what the decision was","why it was difficult","who helped you","whether teenagers should make their own decisions (why/why not)"],"Do you ask your parents before making decisions? Why?"],
+ c:["A safe neighbourhood","Everyone wants to live in a safe neighbourhood.","Here are some ways to keep our neighbourhood safe","How can we keep our neighbourhood safe?",["install CCTV","neighbourhood watch","better street lights","lock doors and gates","know your neighbours","report suspicious activity"],"ways to keep our neighbourhood safe","which is the best way to keep our neighbourhood safe","Is it safe for teenagers to go out alone at night? Why/why not?"]},
+{a:["A country you want to visit","Talk about a country you would like to visit.",["which country it is","what you would do there","who you would go with","whether travelling abroad is better than travelling locally (why/why not)"],"Have you ever been on an aeroplane? How did you feel?"],
+ b:["Something that makes you laugh","Talk about something that always makes you laugh.",["what it is","when you experience it","who you share it with","whether laughter is good for health (why/why not)"],"Who is the funniest person you know? Why?"],
+ c:["Homework","Homework is part of every pupil's life.","Here are some reasons why teachers give homework","Why do teachers give homework?",["to revise lessons","to practise skills","to build discipline","to prepare for exams","to check understanding","to involve parents"],"the reasons why teachers give homework","which is the most important reason for giving homework","Should homework be banned at weekends? Why/why not?"]},
+{a:["A rule at home","Talk about a rule in your home.",["what the rule is","who made it","why it was made","whether teenagers need rules at home (why/why not)"],"If you could make one rule at home, what would it be? Why?"],
+ b:["A useful invention","Talk about an invention you find useful.",["what it is","how you use it","how it makes life easier","whether technology makes people lazy (why/why not)"],"What would you like to invent? Why?"],
+ c:["Our forests","Malaysia is home to some of the oldest rainforests in the world.","Here are some reasons why forests are important","Why are forests important?",["homes for animals","clean air","source of medicine","prevent floods","home for Orang Asli communities","places for recreation"],"the reasons why forests are important","which is the most important reason to protect our forests","Should logging be stopped completely? Why/why not?"]},
+{a:["An activity you would never try","Talk about a sport or activity you would never try.",["what it is","what people do in it","why you would not try it","whether dangerous sports should be banned (why/why not)"],"What is the most exciting thing you have done? Why?"],
+ b:["A meaningful message","Talk about a message or letter that was meaningful to you.",["who sent it","what it said","how you felt","whether handwritten letters are still important today (why/why not)"],"Do you prefer writing letters or sending messages? Why?"],
+ c:["Unity in Malaysia","Malaysia is a country of many races and cultures.","Here are some ways to promote unity among Malaysians","How can we promote unity among Malaysians?",["celebrate festivals together","play sports together","learn other languages","joint school activities","open house events","share local food"],"ways to promote unity among Malaysians","which is the best way to promote unity","Why is unity important for a country?"]},
+{a:["A school day you remember","Talk about a school day you remember well.",["when it was","what happened","why you remember it","whether school days are the best days of our lives (why/why not)"],"What do you like most about school? Why?"],
+ b:["A sound you like","Talk about a sound you like to hear.",["what the sound is","where you hear it","how it makes you feel","whether noise pollution is a problem (why/why not)"],"Do you study better in silence or with music? Why?"],
+ c:["Mental health","Mental health is as important as physical health.","Here are some ways teenagers can look after their mental health","How can teenagers look after their mental health?",["talk to someone they trust","get enough sleep","exercise regularly","take breaks from social media","spend time in nature","do hobbies they enjoy"],"ways teenagers can look after their mental health","which is the best way to look after your mental health","Why do some teenagers keep their problems to themselves?"]},
+{a:["A place that needs improvement","Talk about a place in your area that needs improvement.",["what the place is","what problems it has","how you would improve it","whether young people should share ideas with the local council (why/why not)"],"What do you like most about your area? Why?"],
+ b:["An unusual food","Talk about an unusual food you have tried.",["what it was","where you tried it","what it tasted like","whether people should try food from other cultures (why/why not)"],"Are you a fussy eater? Why/why not?"],
+ c:["Advertisements","We see advertisements everywhere every day.","Here are some places where we see advertisements","Where do we see advertisements?",["television","social media","billboards","newspapers","buses and trains","online videos"],"the places where we see advertisements","which place has the most influence on teenagers","Do advertisements make people buy things they do not need? Why?"]},
+{a:["A walk you enjoyed","Talk about a walk or hike you enjoyed.",["where you went","who went with you","what you saw","whether walking is better than driving for short distances (why/why not)"],"How far do you walk every day? Why?"],
+ b:["Your favourite day of the week","Talk about your favourite day of the week.",["which day it is","what you usually do","why you like it","whether pupils should go to school on Saturdays (why/why not)"],"Which day of the week do you like least? Why?"],
+ c:["Littering","Littering is still a problem in many public places.","Here are some reasons why people litter","Why do people litter?",["laziness","no dustbins nearby","lack of awareness","no fines","bad habits from young","expect others to clean up"],"the reasons why people litter","which is the main reason people litter","Should people who litter be made to clean public places? Why/why not?"]},
+{a:["A uniformed body activity","Talk about an activity in your uniformed body.",["what the uniformed body is","what activity you did","what you learnt","whether uniformed bodies build discipline (why/why not)"],"Would you like to join the army or the police? Why/why not?"],
+ b:["Someone you miss","Talk about someone you miss.",["who the person is","why you do not see him or her often","what you remember about him or her","whether technology helps people stay in touch (why/why not)"],"How do you keep in touch with friends who live far away? Why?"],
+ c:["Part-time jobs","Some students work part-time while studying.","Here are some benefits of part-time jobs for students","What are the benefits of part-time jobs for students?",["earn pocket money","gain work experience","learn responsibility","meet new people","manage time better","help the family"],"the benefits of part-time jobs for students","which is the greatest benefit of a part-time job","Can part-time jobs affect students' studies? How?"]},
+{a:["An adventure","Talk about an adventure you had.",["where it happened","who was with you","what happened","whether adventure activities are good for teenagers (why/why not)"],"Do you like camping? Why/why not?"],
+ b:["Something to improve about yourself","Talk about something you want to improve about yourself.",["what it is","why you want to improve it","how you will do it","whether teenagers are too hard on themselves (why/why not)"],"What is your best quality? Why?"],
+ c:["Saving energy at school","Schools use a lot of electricity every day.","Here are some ways to save energy at school","How can we save energy at school?",["switch off fans and lights","use natural light","install solar panels","energy-saving bulbs","appoint energy monitors","close doors when using air-con"],"ways to save energy at school","which is the best way to save energy at school","Why should young people care about saving energy?"]},
+{a:["Your school canteen","Talk about your school canteen.",["what food it sells","when you go there","what you like or dislike about it","whether pupils should bring food from home (why/why not)"],"What do you usually eat for breakfast? Why?"],
+ b:["A hero from a story","Talk about a hero from a story or film.",["who the character is","which story or film it comes from","why you like the character","whether stories can teach us good values (why/why not)"],"What kind of stories do you like? Why?"],
+ c:["Following trends","Teenagers often follow the latest trends.","Here are some reasons why teenagers follow trends","Why do teenagers follow trends?",["to fit in","celebrity influence","social media","peer pressure","to look good","fear of missing out"],"the reasons why teenagers follow trends","which is the main reason teenagers follow trends","Is it important to be different from others? Why/why not?"]},
+{a:["An activity in your village","Talk about an activity you do in your village or neighbourhood.",["what the activity is","who you do it with","how often you do it","whether young people should stay in their village after school (why/why not)"],"Do you prefer the village or the town? Why?"],
+ b:["An accident or injury","Talk about a time you or someone you know got hurt.",["what happened","where it happened","what was done to help","whether pupils should learn first aid (why/why not)"],"What would you do if a friend fainted in class? Why?"],
+ c:["Public facilities","Public facilities are built for everyone to use.","Here are some ways to take care of public facilities","How can we take care of public facilities?",["do not vandalise","report damage","follow the rules","keep them clean","use them carefully","awareness campaigns"],"ways to take care of public facilities","which is the best way to take care of public facilities","Why do some people damage public property?"]},
+{a:["Your life in 20 years","Talk about what you think your life will be like in 20 years.",["where you will live","what job you will do","who you will live with","whether life will be easier in the future (why/why not)"],"What will schools look like in the future? Why?"],
+ b:["Your study corner","Talk about the place where you study at home.",["where it is","what it looks like","when you study there","whether a quiet place is important for studying (why/why not)"],"Do you study better in the morning or at night? Why?"],
+ c:["AI in learning","Artificial intelligence is changing the way we learn.","Here are some ways AI can help pupils learn","How can AI help pupils learn?",["explain difficult topics","check grammar","translate languages","create practice questions","give quick feedback","learn at your own pace"],"ways AI can help pupils learn","which is the most useful way AI can help pupils","Should pupils use AI to do their homework? Why/why not?"]},
+{a:["An award ceremony","Talk about a prize-giving or award ceremony you attended.",["what the event was","who received awards","how you felt","whether pupils should be rewarded for good behaviour, not only results (why/why not)"],"What award would you like to win? Why?"],
+ b:["Something in your school bag","Talk about something you always bring to school.",["what it is","why you bring it","how long you have had it","whether school bags are too heavy for pupils (why/why not)"],"Do you pack your school bag the night before? Why/why not?"],
+ c:["What success means","Everyone has a different idea of success.","Here are some things people see as signs of success","What does success mean?",["a good job","a happy family","lots of money","good health","helping others","being famous"],"what success means","which is the best sign of success","Are successful people always happy? Why/why not?"]}
+];
+
+/* ---------- storage ---------- */
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let used=new Set(store.get("spmd.used",[]));
+let prepSecs=store.get("spmd.prep",20);
+let soundOn=store.get("spmd.sound",true);
+let hideUsed=store.get("spmd.hide",false);
+let theme=store.get("spmd.theme",null);
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+const pad=n=>String(n).padStart(2,"0");
+
+/* ---------- theme / fullscreen ---------- */
+function applyTheme(){ if(theme) document.documentElement.setAttribute("data-theme",theme); else document.documentElement.removeAttribute("data-theme");
+  $$(".themeLbl").forEach(e=>e.textContent=theme==="dark"?"Dark":theme==="light"?"Light":"Auto"); }
+$$(".themeBtn").forEach(b=>b.addEventListener("click",()=>{ theme = theme===null?"light":theme==="light"?"dark":null; store.set("spmd.theme",theme); applyTheme(); }));
+applyTheme();
+const de=document.documentElement;
+const fsReq=de.requestFullscreen||de.webkitRequestFullscreen;
+function inFs(){return !!(document.fullscreenElement||document.webkitFullscreenElement)}
+function fsLabel(){ $$(".fsLbl").forEach(e=>e.textContent=inFs()?"Exit full screen":"Full screen"); }
+if(!fsReq){ $$(".fsBtn").forEach(b=>b.hidden=true); }
+$$(".fsBtn").forEach(b=>b.addEventListener("click",()=>{ try{
+  if(inFs()){ (document.exitFullscreen||document.webkitExitFullscreen).call(document); }
+  else { const p=fsReq.call(de); if(p&&p.catch) p.catch(()=>{}); } }catch(e){} }));
+document.addEventListener("fullscreenchange",fsLabel); document.addEventListener("webkitfullscreenchange",fsLabel);
+
+/* ---------- sound ---------- */
+let actx=null;
+function ac(){ if(!actx){ try{ actx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } if(actx&&actx.state==="suspended") actx.resume(); return actx; }
+function chime(kind){ if(!soundOn) return; const c=ac(); if(!c) return;
+  const notes = kind==="end" ? [[660,0],[880,.18],[1046,.36]] : [[880,0]];
+  notes.forEach(([f,t])=>{ const o=c.createOscillator(), g=c.createGain(); o.type="sine"; o.frequency.value=f;
+    const s=c.currentTime+t; g.gain.setValueAtTime(0,s); g.gain.linearRampToValueAtTime(.35,s+.02); g.gain.exponentialRampToValueAtTime(.001,s+.5);
+    o.connect(g).connect(c.destination); o.start(s); o.stop(s+.55); }); }
+
+/* ---------- home ---------- */
+function tileHTML(s,i){ return `<button class="tile${used.has(i)?" used":""}" type="button" data-i="${i}"><span class="tno">SET ${pad(i+1)}</span><span class="tth">${s.c[0]}</span><span class="tsub">${s.a[0]} · ${s.b[0]}</span><span class="tused">Used</span></button>`; }
+function renderGrid(){ $("#grid").innerHTML=SETS.map(tileHTML).join(""); $("#grid").classList.toggle("hide-used",hideUsed); }
+function renderProgress(){ const n=used.size; $("#progNum").innerHTML=`${n} <small>/ ${SETS.length}</small>`; $("#progBar").style.width=(n/SETS.length*100)+"%";
+  $("#randomNote").textContent = n>=SETS.length ? "All 50 sets used. A random set will be picked from all sets." : "Picks a random set you have not used yet."; }
+function renderSettings(){ $$("#prepSeg button").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.v===prepSecs)));
+  $("#soundSw").setAttribute("aria-checked",String(soundOn)); $("#hideSw").setAttribute("aria-checked",String(hideUsed)); }
+$("#grid").addEventListener("click",e=>{ const t=e.target.closest(".tile"); if(t) startSet(+t.dataset.i); });
+$("#prepSeg").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; prepSecs=+b.dataset.v; store.set("spmd.prep",prepSecs); renderSettings(); });
+$("#soundSw").addEventListener("click",()=>{ soundOn=!soundOn; store.set("spmd.sound",soundOn); renderSettings(); if(soundOn) chime(); });
+$("#hideSw").addEventListener("click",()=>{ hideUsed=!hideUsed; store.set("spmd.hide",hideUsed); renderSettings(); $("#grid").classList.toggle("hide-used",hideUsed); });
+function resetBoxDefault(){ $("#resetBox").innerHTML=`<button class="linkbtn danger" id="resetBtn" type="button">Reset used sets</button>`; }
+$("#resetBox").addEventListener("click",e=>{
+  if(e.target.id==="resetBtn"){ $("#resetBox").innerHTML=`<span class="confirm">Mark all 50 sets as unused? <button class="btn" id="resetYes" type="button" style="padding:6px 12px;font-size:14px">Reset</button><button class="linkbtn" id="resetNo" type="button">Cancel</button></span>`; }
+  else if(e.target.id==="resetYes"){ used.clear(); store.set("spmd.used",[]); renderGrid(); renderProgress(); resetBoxDefault(); }
+  else if(e.target.id==="resetNo"){ resetBoxDefault(); }
+});
+function randomSet(){ let pool=SETS.map((_,i)=>i).filter(i=>!used.has(i) && i!==cur); if(!pool.length) pool=SETS.map((_,i)=>i).filter(i=>!used.has(i)); if(!pool.length) pool=SETS.map((_,i)=>i).filter(i=>i!==cur); return pool[Math.floor(Math.random()*pool.length)]; }
+$("#randomBtn").addEventListener("click",()=>startSet(randomSet()));
+
+/* ---------- session ---------- */
+const STEPS=[
+ {k:"2A",ph:"ready"},{k:"2A",ph:"prep"},{k:"2A",ph:"share"},
+ {k:"2B",ph:"ready"},{k:"2B",ph:"prep"},{k:"2B",ph:"share"},
+ {k:"3",ph:"ready"},{k:"3",ph:"prep"},{k:"3",ph:"discuss"},{k:"3",ph:"decide"},{k:"3",ph:"opinion"},
+ {k:"end",ph:"end"}];
+let cur=-1, step=0, picked=-1;
+let wake=null;
+function startSet(i){ ac(); cur=i; step=0; picked=-1;
+  $("#home").hidden=true; $("#session").hidden=false; $("#setLabel").textContent="Set "+pad(i+1);
+  try{ if(navigator.wakeLock) navigator.wakeLock.request("screen").then(w=>wake=w).catch(()=>{}); }catch(e){}
+  render(); }
+function goHome(){ stopTimer(); $("#session").hidden=true; $("#home").hidden=false; renderGrid(); renderProgress(); renderSettings();
+  try{ if(wake){ wake.release(); wake=null; } }catch(e){} }
+$("#homeBtn").addEventListener("click",goHome);
+
+function go(n){ stopTimer(); step=Math.max(0,Math.min(STEPS.length-1,n)); render(); $("#stage").scrollTop=0; }
+function next(){ const s=STEPS[step];
+  if(s.ph==="ready"){ ac(); go(step+1); return; }
+  if(s.ph==="opinion"){ used.add(cur); store.set("spmd.used",[...used]); }
+  if(step<STEPS.length-1) go(step+1); }
+function back(){ if(step===0){ goHome(); return; }
+  let n=step-1; if(STEPS[n].ph==="prep") n--; go(n); }
+$("#nextBtn").addEventListener("click",next);
+$("#backBtn").addEventListener("click",back);
+
+function updateChrome(){ const s=STEPS[step], order=["2A","2B","3"], idx=s.k==="end"?3:order.indexOf(s.k);
+  $$("#steps .chip").forEach((c,i)=>{ c.classList.toggle("on",i===idx); c.classList.toggle("done",i<idx); });
+  const labels={ready:"Start timer",prep:"Skip timer",discuss:"Next: Decide",decide:"Next: Your opinion",opinion:"Finish set"};
+  let L=labels[s.ph]; if(s.ph==="share") L = s.k==="2A" ? "Next: Task B" : "Next: Part 3";
+  $("#nextLbl").textContent=L||"Next"; $("#nextBtn").hidden = s.ph==="end"; }
+
+function bookletP2(S,k){ const d=k==="2A"?S.a:S.b, tag=(cur+1)+(k==="2A"?"A":"B");
+  return `<article class="booklet reveal"><div class="bk-head"><span>Part 2 · Candidate booklet ${tag}</span><span>Candidate ${k==="2A"?"A":"B"}</span></div>
+  <div class="bk-body"><h1 class="topic">${d[0]}</h1><p class="prompt">${d[1]}</p><p class="say">You should say:</p>
+  <ul class="pts">${d[2].map(x=>`<li>${x}</li>`).join("")}</ul></div></article>`; }
+
+const POS=[[30,19.8],[70,19.8],[86,50],[70,80.2],[30,80.2],[14,50]];
+function mindmap(c,pickable){
+  const lines=POS.map(([x,y])=>`<line x1="50" y1="28.125" x2="${x}" y2="${(y*.5625).toFixed(3)}"/>`).join("");
+  const nodes=c[4].map((o,i)=>{ const [x,y]=POS[i]; const tag=pickable?"button":"div";
+    return `<${tag} class="node${pickable&&picked===i?" picked":""}" ${pickable?`type="button" data-n="${i}" aria-pressed="${picked===i}"`:""} style="left:${x}%;top:${y}%">${o}</${tag}>`; }).join("");
+  return `<div class="mmwrap"><div class="mm"><svg viewBox="0 0 100 56.25" preserveAspectRatio="none" aria-hidden="true">${lines}</svg><div class="hub">${c[3]}</div>${nodes}</div></div>`; }
+
+function bookletP3(c,inner){ return `<article class="booklet reveal"><div class="bk-head"><span>Part 3 · Candidate's booklet</span><span>Set ${pad(cur+1)} · ${c[0]}</span></div><div class="bk-body">${inner}</div></article>`; }
+
+function rail(status,cls,label){ return `<aside class="rail" aria-live="polite"><div class="status ${cls||""}" id="tStatus">${status}</div>
+  <div class="ring" id="ring"><svg viewBox="0 0 120 120"><circle class="rbg" cx="60" cy="60" r="52"/><circle class="rfg" id="ringFg" cx="60" cy="60" r="52" transform="rotate(-90 60 60)" stroke-dasharray="326.73" stroke-dashoffset="0"/></svg>
+  <div class="rtext"><div class="tnum" id="tTime">0:00</div><div class="tlab">${label}</div></div></div>
+  <div class="tctrl"><button class="btn primary" id="tBtn" type="button">Start</button><button class="btn" id="tReset" type="button">Reset</button></div></aside>`; }
+
+function render(){ updateChrome(); const S=SETS[cur], s=STEPS[step], st=$("#stage"); let h="";
+  if(s.ph==="ready"){
+    const p3=s.k==="3";
+    h=`<section class="ready"><div><p class="eyebrow">${p3?"Part 3 · Group discussion":"Part 2 · Task "+s.k[1]+" · Individual long turn"}</p>
+      <h1 class="bigline">You have ${prepSecs} seconds to prepare.</h1>
+      <p class="lede">${p3?"The discussion task will appear when the timer starts. Read the options and plan your points with your group.":"The topic will appear when the timer starts. When time is up, share your answer with the class."}</p>
+      <div class="actions"><button class="btn primary big" id="goBtn" type="button"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Start ${prepSecs}-second timer</button></div></div>
+      <div class="numeral" aria-hidden="true">${prepSecs}<small>seconds</small></div></section>`;
+    st.innerHTML=h; $("#goBtn").addEventListener("click",next); return; }
+  if(s.ph==="prep"||s.ph==="share"){
+    if(s.k!=="3"){ const d=s.k==="2A"?S.a:S.b;
+      const follow = s.ph==="share" ? `<div class="follow"><p class="minilabel">Question for the partner</p><button class="btn" id="fBtn" type="button">Show follow-up question</button><p class="fq" id="fq" hidden>${d[3]}</p></div>` : "";
+      h=`<div class="split"><div class="col">${bookletP2(S,s.k)}${follow}</div>${s.ph==="prep"?rail("Prepare now","","Preparation"):rail("Time's up · Share your answer","ok","Speaking time")}</div>`;
+      st.innerHTML=h;
+      if(s.ph==="prep") mountTimer(prepSecs,{auto:true,onDone:()=>{ chime("end"); go(step+1); }});
+      else { mountTimer(60,{onDone:()=>{ chime("end"); setStatus("Time's up","warm"); }}); setRingEnd();
+        $("#fBtn").addEventListener("click",()=>{ $("#fq").hidden=false; $("#fBtn").hidden=true; }); }
+      return; }
+    // part 3 prep
+    h=`<div class="split"><div class="col">${bookletP3(S.c,`<p class="p3intro">${S.c[1]}</p><p class="p3lead">${S.c[2]} and a question for you to discuss.</p>${mindmap(S.c,false)}`)}</div>${rail("Prepare now","","Preparation")}</div>`;
+    st.innerHTML=h; mountTimer(prepSecs,{auto:true,onDone:()=>{ chime("end"); go(step+1); }}); return; }
+  if(s.ph==="discuss"||s.ph==="decide"){
+    const dis=s.ph==="discuss";
+    const instr = dis ? `<div class="instr"><span>Talk to each other about <b>${S.c[5]}</b>.</span></div>`
+                      : `<div class="instr"><span>Now decide <b>${S.c[6]}</b>.</span></div><p class="hint" style="margin:0">Tap an option to mark the group's choice.</p>`;
+    h=`<div class="split"><div class="col">${bookletP3(S.c,`<div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px">${instr}</div>${mindmap(S.c,!dis)}`)}</div>
+      ${dis?rail(prepDone(),"ok","Discussion"):rail("Make a decision together","","Decision")}</div>`;
+    st.innerHTML=h;
+    mountTimer(dis?120:60,{onDone:()=>{ chime("end"); setStatus("Time's up","warm"); }});
+    if(!dis) st.querySelectorAll("button.node").forEach(b=>b.addEventListener("click",()=>{ const n=+b.dataset.n; picked = picked===n?-1:n;
+      st.querySelectorAll("button.node").forEach(x=>{ const on=+x.dataset.n===picked; x.classList.toggle("picked",on); x.setAttribute("aria-pressed",String(on)); }); }));
+    return; }
+  if(s.ph==="opinion"){
+    h=`<div class="split"><div class="col">${bookletP3(S.c,`<p class="ctx">You've been talking about ${S.c[5]}. Now let's hear your opinion on this.</p>
+      <h1 class="opq">${S.c[7]}</h1><p class="minilabel" style="margin-bottom:10px">Prompts</p><div class="prompts"><span>What do you think?</span><span>Do you agree?</span><span>How about you?</span></div>`)}</div>
+      ${rail("Share your opinion","","Opinion")}</div>`;
+    st.innerHTML=h; mountTimer(120,{onDone:()=>{ chime("end"); setStatus("Time's up","warm"); }}); return; }
+  if(s.ph==="end"){
+    const left=SETS.length-used.size;
+    h=`<section class="ready"><div><p class="eyebrow">Set ${pad(cur+1)} complete</p><h1 class="bigline">Well done, everyone.</h1>
+      <p class="lede">${left>0?`${left} set${left===1?"":"s"} left that you have not used yet.`:"You have used all 50 sets. Reset them on the home screen to start again."}</p>
+      <div class="actions"><button class="btn primary big" id="nxSet" type="button">Start another new set</button><button class="btn big" id="again" type="button">Repeat Set ${pad(cur+1)}</button><button class="btn big" id="toHome" type="button">All sets</button></div></div>
+      <div class="endbadge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></section>`;
+    st.innerHTML=h;
+    $("#nxSet").addEventListener("click",()=>startSet(randomSet()));
+    $("#again").addEventListener("click",()=>startSet(cur));
+    $("#toHome").addEventListener("click",goHome); }
+}
+function prepDone(){ return "Discuss with your group"; }
+
+/* ---------- timer ---------- */
+const C=326.73;
+const T={total:0,left:0,running:false,end:0,id:null,onDone:null};
+function fmt(sec){ const s=Math.ceil(sec); return Math.floor(s/60)+":"+pad(s%60); }
+function paint(){ const ring=$("#ring"); if(!ring) return;
+  $("#tTime").textContent=fmt(T.left);
+  $("#ringFg").setAttribute("stroke-dashoffset",(C*(1-T.left/T.total)).toFixed(2));
+  ring.classList.toggle("low",T.left>0 && T.left<=5 && (T.running||T.left<T.total));
+  ring.classList.toggle("running",T.running);
+  ring.classList.toggle("end",T.left<=0);
+  $("#tBtn").textContent = T.running?"Pause":(T.left<=0?"Restart":(T.left<T.total?"Resume":"Start")); }
+function mountTimer(total,{auto=false,onDone=null}={}){ T.total=total; T.left=total; T.running=false; T.onDone=onDone; paint();
+  $("#tBtn").addEventListener("click",()=>{ ac(); T.running?pauseT():startT(); });
+  $("#tReset").addEventListener("click",()=>{ stopTimer(); T.left=T.total; paint(); });
+  if(auto) startT(); }
+function startT(){ if(T.left<=0) T.left=T.total; T.running=true; T.end=Date.now()+T.left*1000; clearInterval(T.id); T.id=setInterval(tick,100); paint(); }
+function pauseT(){ clearInterval(T.id); T.running=false; T.left=Math.max(0,(T.end-Date.now())/1000); paint(); }
+function stopTimer(){ clearInterval(T.id); T.running=false; }
+function tick(){ T.left=Math.max(0,(T.end-Date.now())/1000); paint();
+  if(T.left<=0){ stopTimer(); paint(); const f=T.onDone; if(f) f(); } }
+function setStatus(t,cls){ const e=$("#tStatus"); if(e){ e.textContent=t; e.className="status "+(cls||""); } }
+function setRingEnd(){ /* speaking timer waits at full, nothing to do */ }
+
+/* ---------- keyboard / clicker ---------- */
+document.addEventListener("keydown",e=>{ if($("#session").hidden) return;
+  const k=e.key, onBtn=e.target.closest&&e.target.closest("button");
+  if(k==="ArrowRight"||k==="PageDown"){ e.preventDefault(); if(STEPS[step].ph!=="end") next(); }
+  else if(k==="ArrowLeft"||k==="PageUp"){ e.preventDefault(); back(); }
+  else if((k===" "||k==="Enter") && !onBtn){ e.preventDefault(); if(STEPS[step].ph!=="end") next(); }
+  else if(k==="Escape" && !inFs()){ goHome(); }
+});
+
+renderGrid(); renderProgress(); renderSettings();
+</script>
+
+</body>
+</html>
